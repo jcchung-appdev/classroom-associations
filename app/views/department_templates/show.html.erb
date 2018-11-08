@@ -15,6 +15,13 @@
   <dd>
     <%= @department.name %>
   </dd>
+  
+  <dt>
+    Number of courses
+  </dt>
+  <dd>
+    <%= Course.where(department_id: @department.id).count %>
+  </dd>
 </dl>
 
 <a href="/delete_department/<%= @department.id %>">
@@ -26,3 +33,42 @@
 <a href="/departments">
   Go back
 </a>
+
+<div class="card mt-4">
+  <div class="card-header">
+    Courses
+  </div>
+  <ul class="list-group list-group-flush">
+    <% Course.where(department_id: @department.id).each do |course| %>
+      <li class="list-group-item">
+        <a href="/courses/<%= course.id %>">
+          <%= course.title %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="card-header">
+    Add a new course to this department
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <form action="/create_course" method="post">
+        <!-- Label and input for title -->
+        <div class="form-group">
+          <label for="title">
+            Title
+          </label>
+      
+          <input type="text" id="title" name="title" class="form-control" value="<%= @course.try(:title) %>">
+        </div>
+        
+        <!-- Label and input for department_id -->
+        <input type="hidden" name="department_id" value="<%= @department.id %>">
+      
+        <button class="btn btn-block btn-outline-secondary">
+          Create course
+        </button>
+      </form>
+    </li>
+  </ul>
+</div>
