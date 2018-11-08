@@ -9,11 +9,9 @@
 #  updated_at :datetime         not null
 #
 
-require Rails.root.join("spec", "support", "increasing_random.rb")
-
-FactoryBot.define do
-  factory :enrollment do
-    sequence(:student_id) { |n| "Some fake student ID #{n}" }
-    sequence(:course_id) { |n| "Some fake course ID #{n}" }
-  end
+class Enrollment < ApplicationRecord
+    validates :student_id, uniqueness: {
+        scope: :course_id,
+        message: "can only enroll in each course once"
+    }
 end

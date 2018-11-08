@@ -25,6 +25,13 @@
         <%= Department.find(@course.department_id).name %>
       </a>
   </dd>
+  
+  <dt>
+    Number of students
+  </dt>
+  <dd>
+    <%= Enrollment.where(course_id: @course.id).count %>
+  </dd>
 </dl>
 
 <a href="/delete_course/<%= @course.id %>">
@@ -36,3 +43,43 @@
 <a href="/courses">
   Go back
 </a>
+
+<div class="card mt-4">
+  <div class="card-header">
+    Roster
+  </div>
+  <ul class="list-group list-group-flush">
+    <% Enrollment.where(course_id: @course.id).each do |enrollment| %>
+      <li class="list-group-item">
+        <a href="/students/<%= enrollment.student_id %>">
+          <%= Student.find(enrollment.student_id).first_name %> <%= Student.find(enrollment.student_id).last_name %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="card-header">
+    Enroll a new student
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <form action="/create_enrollment" method="post">
+
+        <div class="form-group">
+          <label for="student_id">
+            Student
+          </label>
+      
+          <%= select_tag("student_id", options_from_collection_for_select(Student.all, :id, :last_name, @enrollment.try(:student_id)), :class => "form-control") %>
+          or <a href="/students/new">add a new student</a> first
+        </div>
+        
+        <!-- Label and input for course_id -->
+        <input type="hidden" name="course_id" value="<%= @course.id %>">
+      
+        <button class="btn btn-block btn-outline-secondary">
+          Create enrollment
+        </button>
+      </form>
+    </li>
+  </ul>
+</div>

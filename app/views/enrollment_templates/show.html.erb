@@ -1,0 +1,63 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Enrollment #<%= @enrollment.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/enrollments" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/enrollments/<%= @enrollment.id %>/edit" class="btn btn-block btn-outline-secondary">
+          Edit enrollment
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_enrollment/<%= @enrollment.id %>" class="btn btn-block btn-outline-secondary">
+          Delete enrollment
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Course
+      </dt>
+      <dd>
+        <a href="/courses/<%= @enrollment.course_id %>">
+            <%= Course.find(@enrollment.course_id).title %>
+          </a>
+      </dd>
+
+      <dt>
+        Student
+      </dt>
+      <dd>
+        <a href="/students/<%= @enrollment.student_id %>">
+            <%= Student.find(@enrollment.student_id).first_name %> <%= Student.find(@enrollment.student_id).last_name %>
+          </a>
+      </dd>
+<!--
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@enrollment.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@enrollment.updated_at) %> ago
+      </dd>
+-->
+    </dl>
+  </div>
+</div>
+
